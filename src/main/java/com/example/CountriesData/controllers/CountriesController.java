@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -21,7 +22,11 @@ public class CountriesController {
     @GetMapping("/")
     public ResponseEntity<?> listAllCountries(){
         List<Map<String, String>> allCountries = countriesService.getAllCountries();
-        return new ResponseEntity<>(HttpStatus.OK);
+        Map<String, Object> response = new HashMap<>();
+        response.put("countries", allCountries);
+        response.put("count", allCountries.size());
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @GetMapping("/{name}")
