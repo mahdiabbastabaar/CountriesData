@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/countries")
@@ -19,9 +20,10 @@ public class CountriesController {
 
     @Autowired
     private CountriesService countriesService;
+
     @GetMapping("/")
     public ResponseEntity<?> listAllCountries(){
-        List<Map<String, String>> allCountries = countriesService.getAllCountries();
+        List<Map<String, Object>> allCountries = countriesService.getAllCountries();
         Map<String, Object> response = new HashMap<>();
         response.put("countries", allCountries);
         response.put("count", allCountries.size());
@@ -31,12 +33,11 @@ public class CountriesController {
 
     @GetMapping("/{name}")
     public ResponseEntity<?> getCountryData(@PathVariable String name){
-
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-    @GetMapping("/{name}/weather")
-    public ResponseEntity<?> getCountryWeatherData(@PathVariable String name){
-        return new ResponseEntity<>(HttpStatus.OK);
+        Optional<Map<String, Object>> countryData = countriesService.getCountryByName(name);
+        if (countryData.isPresent()) {
+            return new ResponseEntity<>(countryData.get(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("Country not found", HttpStatus.NOT_FOUND);
+        }
     }
 }
