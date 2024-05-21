@@ -4,10 +4,7 @@ public class Currency {
     private String code;
     private String name;
 
-    public Currency() {
-
-    }
-
+    // Getters and Setters
     public String getCode() {
         return code;
     }

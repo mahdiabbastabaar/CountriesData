@@ -1,17 +1,14 @@
 package com.example.CountriesData.models;
 
 public class Country {
-
     private String name;
     private String capital;
     private String iso2;
-    private int population;
+    private double population;
     private double popGrowth;
-    private Country country;
+    private Currency currency;
 
-    public Country() {
-    }
-
+    // Getters and Setters
     public String getName() {
         return name;
     }
@@ -36,11 +33,11 @@ public class Country {
         this.iso2 = iso2;
     }
 
-    public int getPopulation() {
+    public double getPopulation() {
         return population;
     }
 
-    public void setPopulation(int population) {
+    public void setPopulation(double population) {
         this.population = population;
     }
 
@@ -52,11 +49,11 @@ public class Country {
         this.popGrowth = popGrowth;
     }
 
-    public Country getCountry() {
-        return country;
+    public Currency getCurrency() {
+        return currency;
     }
 
-    public void setCountry(Country country) {
-        this.country = country;
+    public void setCurrency(Currency currency) {
+        this.currency = currency;
     }
 }

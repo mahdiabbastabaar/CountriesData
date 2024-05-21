@@ -1,5 +1,7 @@
 package com.example.CountriesData.controllers;
 
+import com.example.CountriesData.models.Country;
+import com.example.CountriesData.models.Weather;
 import com.example.CountriesData.services.CountriesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,22 +24,31 @@ public class CountriesController {
     private CountriesService countriesService;
 
     @GetMapping("/")
-    public ResponseEntity<?> listAllCountries(){
-        List<Map<String, Object>> allCountries = countriesService.getAllCountries();
+    public ResponseEntity<?> listAllCountries() {
+        List<Map<String, String>> allCountryNames = countriesService.getAllCountryNames();
         Map<String, Object> response = new HashMap<>();
-        response.put("countries", allCountries);
-        response.put("count", allCountries.size());
-
+        response.put("countries", allCountryNames);
+        response.put("count", allCountryNames.size());
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @GetMapping("/{name}")
-    public ResponseEntity<?> getCountryData(@PathVariable String name){
-        Optional<Map<String, Object>> countryData = countriesService.getCountryByName(name);
+    public ResponseEntity<?> getCountryData(@PathVariable String name) {
+        Optional<Country> countryData = countriesService.getCountryByName(name);
         if (countryData.isPresent()) {
             return new ResponseEntity<>(countryData.get(), HttpStatus.OK);
         } else {
             return new ResponseEntity<>("Country not found", HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/{name}/weather")
+    public ResponseEntity<?> getCountryWeatherData(@PathVariable String name) {
+        Optional<Weather> weatherData = countriesService.getCountryWeather(name);
+        if (weatherData.isPresent()) {
+            return new ResponseEntity<>(weatherData.get(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("Weather data not found", HttpStatus.NOT_FOUND);
         }
     }
 }

@@ -8,10 +8,7 @@ public class Weather {
     private int temp;
     private int humidity;
 
-    public Weather() {
-
-    }
-
+    // Getters and Setters
     public String getCountryName() {
         return countryName;
     }
