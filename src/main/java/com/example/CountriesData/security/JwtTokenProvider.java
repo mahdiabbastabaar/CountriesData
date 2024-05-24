@@ -58,7 +58,7 @@ public class JwtTokenProvider {
     }
 
     // validate JWT token
-    public boolean validateToken(String token){
+    public boolean validateToken(String token) throws Exception {
         try{
             Jwts.parser()
                 .verifyWith((SecretKey) key())
@@ -66,13 +66,17 @@ public class JwtTokenProvider {
                 .parse(token);
             return true;
         }catch (MalformedJwtException malformedJwtException){
-            throw new BlogAPIException(HttpStatus.BAD_REQUEST, "Invalid JWT Token");
+//            throw new BlogAPIException(HttpStatus.BAD_REQUEST, "Invalid JWT Token");
+            throw new Exception("Invalid JWT Token");
         }catch (ExpiredJwtException expiredJwtException){
-            throw new BlogAPIException(HttpStatus.BAD_REQUEST, "Expired JWT token");
+//            throw new BlogAPIException(HttpStatus.BAD_REQUEST, "Expired JWT token");
+            throw new Exception("Expired JWT token");
         }catch (UnsupportedJwtException unsupportedJwtException){
-            throw new BlogAPIException(HttpStatus.BAD_REQUEST, "Unsupported JWT token");
+//            throw new BlogAPIException(HttpStatus.BAD_REQUEST, "Unsupported JWT token");
+            throw new Exception("Unsupported JWT token");
         }catch (IllegalArgumentException illegalArgumentException){
-            throw new BlogAPIException(HttpStatus.BAD_REQUEST, "Jwt claims string is null or empty");
+//            throw new BlogAPIException(HttpStatus.BAD_REQUEST, "Jwt claims string is null or empty");
+            throw new Exception("Jwt claims string is null or empty");
         }
     }
 

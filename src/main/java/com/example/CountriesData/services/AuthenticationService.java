@@ -6,12 +6,15 @@ import com.example.CountriesData.models.user.Role;
 import com.example.CountriesData.models.user.User;
 import com.example.CountriesData.repositories.UserRepository;
 import com.example.CountriesData.security.JwtTokenProvider;
+import jakarta.transaction.Transactional;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class AuthenticationService {
@@ -20,7 +23,6 @@ public class AuthenticationService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
-
 
     public AuthenticationService(AuthenticationManager authenticationManager,
                                  UserRepository userRepository,
@@ -32,7 +34,10 @@ public class AuthenticationService {
         this.jwtTokenProvider = jwtTokenProvider;
     }
 
-    public String login(LoginRequestDto loginDto) {
+    public String login(LoginRequestDto loginDto) throws Exception {
+        if (!userRepository.isEnabled(loginDto.username())) {
+            throw new Exception("user is not active!");
+        }
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
             loginDto.username(), loginDto.password()));
 
@@ -41,23 +46,35 @@ public class AuthenticationService {
         return jwtTokenProvider.generateToken(authentication);
     }
 
-    public String register(RegisterRequestDto registerDto) throws Exception {
+    @Transactional
+    public String register(RegisterRequestDto registerDto, Role role) throws Exception {
         if(userRepository.existsUserByUsername(registerDto.username())){
-            throw new Exception("Username is already exists!.");
+            throw new Exception("Username already exists!.");
         }
-
+        //TODO handle the Role input
         User user = new User();
         user.setUsername(registerDto.username());
         user.setPassword(passwordEncoder.encode(registerDto.password()));
         user.setEnabled(false);
-        user.setRole(Role.USER);
+        user.setRole(role);
         userRepository.save(user);
 
-        return "Registered Successfully";
+        return "Registered Successfully!";
     }
 
-    public String updateUserActivation(String username, boolean active) {
-        return "";
+    public String updateUserActivation(String username, boolean active) throws Exception {
+        if(!userRepository.existsUserByUsername(username)){
+            throw new Exception("User doesn't exist!.");
+        }
+
+        User user = userRepository.getUserByUsername(username);
+        user.setEnabled(active);
+        userRepository.save(user);
+        return "Successful!";
+    }
+
+    public List<String> getAllUsers() {
+        return userRepository.getAllUsernames();
     }
 
 }

@@ -1,0 +1,21 @@
+version: '3.9'
+
+name: countries-data-app
+
+volumes:
+  db:
+    driver: local
+
+services:
+  postgres:
+    image: postgres:14.2-alpine
+    container_name: countries_data_postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - "db:/var/lib/postgresql/data"
+    restart: always
+    environment:
+      - POSTGRES_DB=countries_data_postgres
+      - POSTGRES_USER=countries_data_postgres
+      - POSTGRES_PASSWORD=countries_data_postgres
