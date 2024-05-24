@@ -26,7 +26,7 @@ public class CountriesService {
 
     private static final String API_NINJAS_COUNTRY_URL = "https://api.api-ninjas.com/v1/country?name=";
     private static final String API_NINJAS_WEATHER_URL = "https://api.api-ninjas.com/v1/weather?city=";
-    private static final String API_KEY = "Ps+GJy6f0PRq7ykxqnUliw==FuGuhWkl8mnzefnQ";  // Replace with your actual API key
+    private static final String API_KEY = "Ps+GJy6f0PRq7ykxqnUliw==FuGuhWkl8mnzefnQ";
 
     public Optional<Country> getCountryByName(String name) {
         HttpHeaders headers = new HttpHeaders();
@@ -53,8 +53,8 @@ public class CountriesService {
             Map<String, String> currencyMap = (Map<String, String>) responseBody.get("currency");
 
             Currency currency = new Currency();
-            currency.setCode(currencyMap.get("code").toString());
-            currency.setName(currencyMap.get("name").toString());
+            currency.setCode(currencyMap.get("code"));
+            currency.setName(currencyMap.get("name"));
             country.setCurrency(currency);
 
             return Optional.of(country);
@@ -63,13 +63,13 @@ public class CountriesService {
         return Optional.empty();
     }
 
-    public Optional<Weather> getCountryWeather(String country) {
+    public Optional<Weather> getCountryWeather(String countryName, String capital) {
         HttpHeaders headers = new HttpHeaders();
         headers.set("X-Api-Key", API_KEY);
 
         HttpEntity<String> entity = new HttpEntity<>(headers);
         ResponseEntity<Map<String, Object>> response = restTemplate.exchange(
-                API_NINJAS_WEATHER_URL + country,
+                API_NINJAS_WEATHER_URL + countryName,
                 HttpMethod.GET,
                 entity,
                 new ParameterizedTypeReference<>() {}
@@ -79,12 +79,12 @@ public class CountriesService {
             Map<String, Object> responseBody = response.getBody();
 
             Weather weather = new Weather();
-            weather.setCountryName(country);
-            weather.setCapital("Tehran");  // Replace with the actual capital if available
+            weather.setCountryName(countryName);
+            weather.setCapital(capital);
             weather.setWindSpeed(((Number) responseBody.get("wind_speed")).doubleValue());
             weather.setWindDegrees((Integer) responseBody.get("wind_degrees"));
-            weather.setTemp((Integer) responseBody.get("temp"));
-            weather.setHumidity((Integer) responseBody.get("humidity"));
+            weather.setTemp(((Number) responseBody.get("temp")).intValue());
+            weather.setHumidity(((Number) responseBody.get("humidity")).intValue());
 
             return Optional.of(weather);
         }

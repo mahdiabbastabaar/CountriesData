@@ -44,11 +44,23 @@ public class CountriesController {
 
     @GetMapping("/{name}/weather")
     public ResponseEntity<?> getCountryWeatherData(@PathVariable String name) {
-        Optional<Weather> weatherData = countriesService.getCountryWeather(name);
-        if (weatherData.isPresent()) {
-            return new ResponseEntity<>(weatherData.get(), HttpStatus.OK);
+        Optional<Country> countryData = countriesService.getCountryByName(name);
+        if (countryData.isPresent()) {
+            String capital = countryData.get().getCapital();
+            Optional<Weather> weatherData = countriesService.getCountryWeather(name, capital);
+            if (weatherData.isPresent()) {
+                return new ResponseEntity<>(weatherData.get(), HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>("Weather data not found", HttpStatus.NOT_FOUND);
+            }
         } else {
-            return new ResponseEntity<>("Weather data not found", HttpStatus.NOT_FOUND);
+            // If country not found, fetch weather by country name directly
+            Optional<Weather> weatherData = countriesService.getCountryWeather(name, null);
+            if (weatherData.isPresent()) {
+                return new ResponseEntity<>(weatherData.get(), HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>("Country and Weather data not found", HttpStatus.NOT_FOUND);
+            }
         }
     }
 }
