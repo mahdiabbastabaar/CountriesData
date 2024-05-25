@@ -4,6 +4,7 @@ import com.example.CountriesData.models.Country;
 import com.example.CountriesData.models.Currency;
 import com.example.CountriesData.models.Weather;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -28,6 +29,7 @@ public class CountriesService {
     private static final String API_NINJAS_WEATHER_URL = "https://api.api-ninjas.com/v1/weather?city=";
     private static final String API_KEY = "Ps+GJy6f0PRq7ykxqnUliw==FuGuhWkl8mnzefnQ";
 
+    @Cacheable(value = "country", key = "#name")
     public Optional<Country> getCountryByName(String name) {
         HttpHeaders headers = new HttpHeaders();
         headers.set("X-Api-Key", API_KEY);

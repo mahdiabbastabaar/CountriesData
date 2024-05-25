@@ -20,8 +20,8 @@ POST localhost:8080/api/v1/auth/users/login
 Content-Type: application/json
 
 {
-  "username": "admin",
-  "password": "admin"
+  "username": "mahdi",
+  "password": "pass"
 }
 
 ### Send PUT request to enable user
@@ -31,3 +31,18 @@ Authorization: Bearer {{auth_token}}
 ### Send GET request by admin to get all users
 GET localhost:8080/api/v1/auth/admin/users
 Authorization: Bearer {{auth_token}}
+
+### Send GET request to get country's data
+GET localhost:8080/api/v1/countries/poland
+Authorization: Bearer {{auth_token}}
+
+### Send POST request to create api token
+POST localhost:8080/api/v1/user/api-tokens/
+Authorization: Bearer {{auth_token}}
+Content-Type: application/json
+
+{
+  "name": "mahdi",
+  "expirationDate": "2025-01-01T23:59:59Z"
+}
+
