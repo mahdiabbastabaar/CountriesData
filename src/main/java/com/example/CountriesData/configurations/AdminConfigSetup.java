@@ -20,7 +20,12 @@ public class AdminConfigSetup {
         RegisterRequestDto requestDto =
             new RegisterRequestDto(adminConfiguration.getUsername(), adminConfiguration.getPassword());
         //TODO handle exception later
-        authenticationService.register(requestDto, Role.ADMIN);
+        try {
+            authenticationService.register(requestDto, Role.ADMIN);
+        } catch (Exception e) {
+            System.out.println("hi");
+        }
+
 
     }
 }

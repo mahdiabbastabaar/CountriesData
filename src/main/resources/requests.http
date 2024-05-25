@@ -7,7 +7,7 @@ GET localhost:8080/api/v1/countries/Iran
 Accept: application/json
 
 ### Send POST request to register user
-POST localhost:8080/api/v1/auth/register
+POST localhost:8080/api/v1/auth/users/register
 Content-Type: application/json
 
 {
@@ -15,3 +15,19 @@ Content-Type: application/json
   "password": "pass"
 }
 
+### Send POST request to login user
+POST localhost:8080/api/v1/auth/users/login
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "password": "admin"
+}
+
+### Send PUT request to enable user
+PUT localhost:8080/api/v1/auth/admin/users?username=mahdi&active=true
+Authorization: Bearer {{auth_token}}
+
+### Send GET request by admin to get all users
+GET localhost:8080/api/v1/auth/admin/users
+Authorization: Bearer {{auth_token}}

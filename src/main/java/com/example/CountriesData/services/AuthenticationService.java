@@ -55,7 +55,7 @@ public class AuthenticationService {
         User user = new User();
         user.setUsername(registerDto.username());
         user.setPassword(passwordEncoder.encode(registerDto.password()));
-        user.setEnabled(false);
+        user.setEnabled(role == Role.ADMIN);
         user.setRole(role);
         userRepository.save(user);
 
