@@ -35,7 +35,7 @@ public class AuthenticationService {
     }
 
     public String login(LoginRequestDto loginDto) throws Exception {
-        if (!userRepository.isEnabled(loginDto.username())) {
+        if (!userRepository.getUserByUsername(loginDto.username()).isEnabled()) {
             throw new Exception("user is not active!");
         }
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
@@ -74,7 +74,7 @@ public class AuthenticationService {
     }
 
     public List<String> getAllUsers() {
-        return userRepository.getAllUsernames();
+        return userRepository.findAllUsernames();
     }
 
 }

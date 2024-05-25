@@ -1,6 +1,6 @@
-version: '3.9'
+version: '2.23'
 
-name: countries-data-app
+#name: countries-data-app
 
 volumes:
   db:

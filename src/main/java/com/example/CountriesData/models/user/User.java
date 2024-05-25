@@ -1,11 +1,24 @@
 package com.example.CountriesData.models.user;
 
+import com.example.CountriesData.services.RoleGrantedAuthority;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.springframework.security.core.GrantedAuthority;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Represents an entity for a user
  */
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "users")
 public class User {
 
@@ -18,23 +31,27 @@ public class User {
      * The user's id
      */
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     /**
      * The user's username
      */
+    @Getter
     @Column(unique = true, nullable = false, length = 64)
     private String username;
 
     /**
      * The user's encoded password
      */
+    @Getter
     @Column(nullable = false, length = 64)
     private String password;
 
     /**
      * The user's role
      */
+    @Getter
     @Enumerated(EnumType.STRING)
     private Role role;
 
@@ -52,16 +69,8 @@ public class User {
         return id;
     }
 
-    public String getUsername() {
-        return username;
-    }
-
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
     }
 
     public void setPassword(String password) {
@@ -76,11 +85,13 @@ public class User {
         isEnabled = enabled;
     }
 
-    public Role getRole() {
-        return role;
-    }
-
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public Set<GrantedAuthority> getAuthorities() {
+        Set<GrantedAuthority> authorities = new HashSet<>();
+        authorities.add(new RoleGrantedAuthority(getRole()));
+        return authorities;
     }
 }
