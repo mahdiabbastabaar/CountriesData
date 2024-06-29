@@ -1,8 +1,9 @@
-package com.example.CountriesData.services;
+package org.example.services;
 
-import com.example.CountriesData.models.Country;
-import com.example.CountriesData.models.Currency;
-import com.example.CountriesData.models.Weather;
+
+import org.example.models.Country;
+import org.example.models.Currency;
+import org.example.models.Weather;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.ParameterizedTypeReference;

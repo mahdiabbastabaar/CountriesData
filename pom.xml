@@ -15,7 +15,7 @@
     <name>CountriesData</name>
 	<description>Web Course Project - To gather information about countries using endpoints</description>
 	<modules>
-		<module>AuthenticationService</module>
+		<module>UserManagementService</module>
 		<module>CountriesService</module>
 	</modules>
 	<properties>

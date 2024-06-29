@@ -1,4 +1,4 @@
-package com.example.CountriesData.models;
+package org.example.models;
 
 public class Weather {
     private String countryName;

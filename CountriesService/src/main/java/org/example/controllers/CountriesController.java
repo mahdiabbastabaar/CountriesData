@@ -1,8 +1,9 @@
-package com.example.CountriesData.controllers;
+package org.example.controllers;
 
-import com.example.CountriesData.models.Country;
-import com.example.CountriesData.models.Weather;
-import com.example.CountriesData.services.CountriesService;
+
+import org.example.models.Country;
+import org.example.models.Weather;
+import org.example.services.CountriesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
