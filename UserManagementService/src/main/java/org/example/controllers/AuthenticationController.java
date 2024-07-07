@@ -45,6 +45,11 @@ public class AuthenticationController {
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
+    @GetMapping("users/auth-check")
+    public ResponseEntity<?> authCheck() {
+        return authenticationService.authCheck();
+    }
+
     @PutMapping(value = {"/admin/users"})
     public ResponseEntity<String> updateUserActivation(@RequestParam String username, @RequestParam boolean active) {
         String response = "";

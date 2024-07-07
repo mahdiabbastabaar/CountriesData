@@ -1,5 +1,6 @@
 package org.example.services;
 
+import org.example.dto.auth.ExternalUserDto;
 import org.example.dto.auth.LoginRequestDto;
 import org.example.dto.auth.RegisterRequestDto;
 import org.example.models.Role;
@@ -7,6 +8,8 @@ import org.example.models.User;
 import org.example.repositories.UserRepository;
 import org.example.configurations.filters.JwtTokenProvider;
 import jakarta.transaction.Transactional;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -77,4 +80,14 @@ public class AuthenticationService {
         return userRepository.findAllUsernames();
     }
 
+    public ResponseEntity<?> authCheck() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication instanceof AnonymousAuthenticationToken) {
+            return ResponseEntity.ok().body(null);
+        } else {
+            User authenticatedUser = (User) authentication.getPrincipal();
+            ExternalUserDto externalUserDto = new ExternalUserDto(authenticatedUser.getUsername());
+            return ResponseEntity.ok().body(externalUserDto);
+        }
+    }
 }
