@@ -11,8 +11,13 @@ import java.util.*;
 
 @Service
 public class ApiTokenService {
-    private ApiTokenRepository apiTokenRepository;
-    private UserRepository userRepository;
+    private final ApiTokenRepository apiTokenRepository;
+    private final UserRepository userRepository;
+
+    public ApiTokenService(ApiTokenRepository apiTokenRepository, UserRepository userRepository) {
+        this.apiTokenRepository = apiTokenRepository;
+        this.userRepository = userRepository;
+    }
 
     public ApiToken create(String name, Date expiartionDate, String username) throws Exception {
         User user = userRepository.getUserByUsername(username);
