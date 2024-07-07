@@ -26,6 +26,7 @@ public class CountriesController {
 
     @GetMapping("/")
     public ResponseEntity<?> listAllCountries() {
+        System.out.println("1");
         List<Map<String, String>> allCountryNames = countriesService.getAllCountryNames();
         Map<String, Object> response = new HashMap<>();
         response.put("countries", allCountryNames);

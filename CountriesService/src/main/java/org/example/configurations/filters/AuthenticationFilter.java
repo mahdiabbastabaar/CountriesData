@@ -34,9 +34,10 @@ public class AuthenticationFilter extends OncePerRequestFilter {
         throws ServletException, IOException {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", request.getHeader("Authorization"));
-        headers.add("X-API-Key", request.getHeader("X-API-Key"));
+        //headers.add("X-API-Key", request.getHeader("X-API-Key"));
 
-        String userDetails = this.sendRequest(authenticationURL, HttpMethod.GET, headers, String.class).getBody();
+        String userDetails = this.sendRequest(authenticationURL, headers, String.class).getBody();
+        System.out.println(userDetails);
         if (userDetails != null) {
             UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken("anonymous", null, null);
 
@@ -46,11 +47,11 @@ public class AuthenticationFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
-    private  <E> ResponseEntity<E> sendRequest(String url, HttpMethod httpMethod, HttpHeaders httpHeaders, Class<E> eClass) {
+    private  <E> ResponseEntity<E> sendRequest(String url, HttpHeaders httpHeaders, Class<E> eClass) {
         HttpEntity<String> entity = new HttpEntity<>("", httpHeaders);
         ResponseEntity<E> response;
         try {
-            response = restTemplate.exchange(url, httpMethod, entity, eClass);
+            response = restTemplate.exchange(url, HttpMethod.GET, entity, eClass);
             return response;
         } catch (Exception ex) {
             throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE, "External API doesn't answer!");
