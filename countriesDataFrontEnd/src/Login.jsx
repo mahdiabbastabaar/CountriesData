@@ -24,7 +24,8 @@ function Login() {
       const { accessToken } = response.data;
       alert('Login successful');
       localStorage.setItem('auth_token', accessToken);
-      navigate(`/${username}`);
+      const nextUrl = userType === "normal-user" ? "/tokens" : "/admin";
+      navigate(nextUrl);
     } catch (error) {
       setErrorMessage('نام کاربری یا رمز عبور اشتباه است');
     }
