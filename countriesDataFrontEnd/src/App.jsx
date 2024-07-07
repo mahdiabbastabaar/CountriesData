@@ -11,7 +11,7 @@ function App() {
     const token = localStorage.getItem('auth_token');
     if (token) {
       const payload = JSON.parse(atob(token.split('.')[1]));
-      return payload.role === 'ADMIN';
+      return payload.sub === 'admin';
     }
     return false;
   };

@@ -4,7 +4,6 @@ import com.example.CountriesData.models.user.ApiToken;
 import com.example.CountriesData.models.user.User;
 import com.example.CountriesData.repositories.ApiTokenRepository;
 import com.example.CountriesData.repositories.UserRepository;
-import com.example.CountriesData.security.JwtTokenProvider;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.stereotype.Service;
 

@@ -73,8 +73,8 @@ public class AuthenticationService {
         return "Successful!";
     }
 
-    public List<String> getAllUsers() {
-        return userRepository.findAllUsernames();
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
     }
 
 }

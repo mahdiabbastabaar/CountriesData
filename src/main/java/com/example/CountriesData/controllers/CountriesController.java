@@ -6,10 +6,7 @@ import com.example.CountriesData.services.CountriesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -24,6 +21,7 @@ public class CountriesController {
     private CountriesService countriesService;
 
     @GetMapping("/")
+    @CrossOrigin
     public ResponseEntity<?> listAllCountries() {
         List<Map<String, String>> allCountryNames = countriesService.getAllCountryNames();
         Map<String, Object> response = new HashMap<>();
@@ -33,6 +31,7 @@ public class CountriesController {
     }
 
     @GetMapping("/{name}")
+    @CrossOrigin
     public ResponseEntity<?> getCountryData(@PathVariable String name) {
         Optional<Country> countryData = countriesService.getCountryByName(name);
         if (countryData.isPresent()) {
@@ -43,6 +42,7 @@ public class CountriesController {
     }
 
     @GetMapping("/{name}/weather")
+    @CrossOrigin
     public ResponseEntity<?> getCountryWeatherData(@PathVariable String name) {
         Optional<Country> countryData = countriesService.getCountryByName(name);
         if (countryData.isPresent()) {

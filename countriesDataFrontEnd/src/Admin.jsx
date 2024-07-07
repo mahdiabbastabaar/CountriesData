@@ -19,6 +19,7 @@ function Admin() {
             'Authorization': `Bearer ${token}`
           }
         });
+        console.log("fetchUsers", response.data)
         setUsers(response.data);
       } catch (error) {
         setErrorMessage('دریافت لیست کاربران با خطا مواجه شد');
@@ -37,7 +38,18 @@ function Admin() {
           'Authorization': `Bearer ${token}`
         }
       });
-      setUsers(users.map(user => user.username === username ? { ...user, active: newStatus } : user));
+      try {
+        const token = localStorage.getItem('auth_token');
+        const response = await axios.get('http://localhost:8080/api/v1/auth/admin/users', {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        console.log("fetchUsers", response.data)
+        setUsers(response.data);
+      } catch (error) {
+        setErrorMessage('دریافت لیست کاربران با خطا مواجه شد');
+      }
     } catch (error) {
       setErrorMessage('تعویض وضعیت کاربر با شکست مواجه شد.');
     }
@@ -61,8 +73,8 @@ function Admin() {
       key: 'active',
       render: (text, record) => (
         <Switch 
-          checked={record.active} 
-          onChange={() => handleStatusChange(record.username, record.active)}
+          checked={record.enabled}
+          onChange={() => handleStatusChange(record.username, record.enabled)}
           checkedChildren="فعال"
           unCheckedChildren="غیرفعال"
         />

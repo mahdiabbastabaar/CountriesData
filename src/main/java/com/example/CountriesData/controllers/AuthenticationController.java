@@ -4,6 +4,7 @@ import com.example.CountriesData.dto.auth.JwtAuthResponseDto;
 import com.example.CountriesData.dto.auth.LoginRequestDto;
 import com.example.CountriesData.dto.auth.RegisterRequestDto;
 import com.example.CountriesData.models.user.Role;
+import com.example.CountriesData.models.user.User;
 import com.example.CountriesData.services.AuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,6 +22,7 @@ public class AuthenticationController {
     private AuthenticationService authenticationService;
 
     @PostMapping(value = {"/users/login"}, consumes = {"application/json"})
+    @CrossOrigin
     public ResponseEntity<?> login(@RequestBody LoginRequestDto loginDto) {
         String token = "";
         try {
@@ -35,6 +37,7 @@ public class AuthenticationController {
     }
 
     @PostMapping(value = {"/users/register"}, consumes = {"application/json"})
+    @CrossOrigin
     public ResponseEntity<String> register(@RequestBody RegisterRequestDto registerDto) {
         String response = "";
         try {
@@ -46,6 +49,7 @@ public class AuthenticationController {
     }
 
     @PutMapping(value = {"/admin/users"})
+    @CrossOrigin
     public ResponseEntity<String> updateUserActivation(@RequestParam String username, @RequestParam boolean active) {
         String response = "";
         try {
@@ -57,8 +61,9 @@ public class AuthenticationController {
     }
 
     @GetMapping(value = {"/admin/users"})
+    @CrossOrigin
     public ResponseEntity<?> getAllUsersByAdmin() {
-        List<String> result;
+        List<User> result;
         try {
             result = authenticationService.getAllUsers();
         } catch (Exception e) {
